@@ -82,6 +82,31 @@ def dfs(startPoint: Cell, endpoint: Cell):
                 p.empiler(i)
     return False
 
+def bfs (startPoint: Cell, endpoint: Cell):
+    p = filed()
+    p.enfiler(startPoint)
+    curr = startPoint
+    curr.state = True
+    while not p.file_vide():
+        curr = p.defiler()
+        if curr.i == endpoint.i and curr.j == endpoint.j:
+            return True
+        else:
+            for i in maze.getSucessors(curr):
+                mazeSetup()
+                playerTrack()
+                p.enfiler(i)
+                i.state = True
+                print("cell : ", i.i, ", ", i.j)
+                x = START_POINT + (RECT_WIDTH * i.j)
+                y = START_POINT + (RECT_WIDTH * i.i)
+                pygame.draw.rect(screen, PLAYER_COLOR, (x+5, y+5, RECT_WIDTH-10, RECT_WIDTH-10))
+                pygame.display.flip()  # Update the display
+                pygame.time.Clock().tick(FPS)  # Adjust the delay
+                
+    return False
+
+
 
 def mazeSetup():
     screen.fill("purple")
@@ -108,9 +133,22 @@ while running:
 
     mazeSetup()
 
+    ## DFS
+    # if not show_text:
+    #     # Run the DFS algorithm once and set the show_text flag if it succeeds
+    #     resultat = dfs(maze.grid[0][0], maze.grid[9][9])
+    #     if resultat:
+    #         show_text = True
+
+    # if show_text:
+    #     # Display the text in the center of the screen
+    #     playerTrack()
+    #     screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
+
+    ## BFS
     if not show_text:
         # Run the DFS algorithm once and set the show_text flag if it succeeds
-        resultat = dfs(maze.grid[0][0], maze.grid[9][9])
+        resultat = bfs(maze.grid[0][0], maze.grid[9][9])
         if resultat:
             show_text = True
 
@@ -118,6 +156,7 @@ while running:
         # Display the text in the center of the screen
         playerTrack()
         screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
+
 
 
     pygame.display.flip()
