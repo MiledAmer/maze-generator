@@ -19,7 +19,7 @@ SELECTED = (219, 15, 204)
 font = pygame.font.Font(None, 36)
 
 # Menu items
-menu_items = ["Start Game", "Options", "Quit"]
+menu_items = ["Start BFS", "Start DFS", "Quit"]
 selected_item = 0  # Index of the currently selected item
 
 # Function to display menu items

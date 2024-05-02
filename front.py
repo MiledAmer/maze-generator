@@ -9,7 +9,7 @@ from file import filed
 pygame.init()
 FPS = 5
 SCREEN_WIDTH = 800
-SCREEN_HIGHT = 800 
+SCREEN_HIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HIGHT))
 clock = pygame.time.Clock()
 running = True
@@ -19,6 +19,27 @@ running = True
 show_text = False 
 
 
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+SELECTED = (219, 15, 204)
+
+# Font
+font = pygame.font.Font(None, 36)
+
+# Menu items
+menu_items = ["Start DFS", "Start BFS", "Quit"]
+selected_item = 0  # Index of the currently selected item
+
+# Function to display menu items
+def display_menu():
+    screen.fill("black")
+    for i, item in enumerate(menu_items):
+        color = WHITE if i != selected_item else SELECTED
+        text_surface = font.render(item, True, color)
+        text_rect = text_surface.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HIGHT/2 + i*50))
+        screen.blit(text_surface, text_rect)
 # create the maze
 maze = Maze(10, 10)
 # maze.displayAsDict()
@@ -130,8 +151,51 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                selected_item = (selected_item - 1) % len(menu_items)
+            elif event.key == pygame.K_DOWN:
+                selected_item = (selected_item + 1) % len(menu_items)
+            elif event.key == pygame.K_RETURN:
+                if selected_item == 0:
+                    # DFS
+                    maze.setStateZero()
+                    mazeSetup()
+                    if not show_text:
+                        # Run the DFS algorithm once and set the show_text flag if it succeeds
+                        resultat = dfs(maze.grid[0][0], maze.grid[9][9])
+                        if resultat:
+                            show_text = True
 
-    mazeSetup()
+                    if show_text:
+                        # Display the text in the center of the screen
+                        playerTrack()
+                        screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
+
+                elif selected_item == 1:
+                    ## BFS
+                    maze.setStateZero()
+                    mazeSetup()
+                    if not show_text:
+                        # Run the DFS algorithm once and set the show_text flag if it succeeds
+                        resultat = bfs(maze.grid[0][0], maze.grid[9][9])
+                        if resultat:
+                            show_text = True
+
+                    if show_text:
+                        # Display the text in the center of the screen
+                        playerTrack()
+                        screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
+
+                    # Show options menu
+                elif selected_item == 2:
+                    print("Quit")
+                    pygame.quit()
+                    running = False
+        if event.type == pygame.QUIT:
+            running = False
+
+    # mazeSetup()
 
     ## DFS
     # if not show_text:
@@ -145,21 +209,21 @@ while running:
     #     playerTrack()
     #     screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
 
-    mazeSetup()
+    # mazeSetup()
 
-    ## BFS
-    if not show_text:
-        # Run the DFS algorithm once and set the show_text flag if it succeeds
-        resultat = bfs(maze.grid[0][0], maze.grid[9][9])
-        if resultat:
-            show_text = True
+    # ## BFS
+    # if not show_text:
+    #     # Run the DFS algorithm once and set the show_text flag if it succeeds
+    #     resultat = bfs(maze.grid[0][0], maze.grid[9][9])
+    #     if resultat:
+    #         show_text = True
 
-    if show_text:
-        # Display the text in the center of the screen
-        playerTrack()
-        screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
+    # if show_text:
+    #     # Display the text in the center of the screen
+    #     playerTrack()
+    #     screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
 
-
+    display_menu()
 
     pygame.display.flip()
     pygame.time.Clock().tick(FPS)
