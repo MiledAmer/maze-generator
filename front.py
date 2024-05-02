@@ -174,9 +174,12 @@ while running:
                     
                     # Run the DFS algorithm once and set the show_text flag if it succeeds
                     resultat = bfs(maze.grid[0][0], maze.grid[9][9])
-                    
 
                 elif selected_item == 2:
+                    maze = Maze(10, 10)
+                    print("new maze")    
+
+                elif selected_item == 3:
                     print("Quit")
                     pygame.quit()
                     running = False
