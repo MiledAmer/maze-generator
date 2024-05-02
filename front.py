@@ -29,7 +29,7 @@ SELECTED = (219, 15, 204)
 font = pygame.font.Font(None, 36)
 
 # Menu items
-menu_items = ["Start DFS", "Start BFS", "Quit"]
+menu_items = ["Start DFS", "Start BFS", "Change Maze","Quit"]
 selected_item = 0  # Index of the currently selected item
 
 # Function to display menu items
@@ -147,7 +147,6 @@ def playerTrack():
 
 
 while running:
-    iteration = 0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -161,67 +160,28 @@ while running:
                     # DFS
                     maze.setStateZero()
                     mazeSetup()
-                    if not show_text:
-                        # Run the DFS algorithm once and set the show_text flag if it succeeds
-                        resultat = dfs(maze.grid[0][0], maze.grid[9][9])
-                        if resultat:
+                    
+                    # Run the DFS algorithm once and set the show_text flag if it succeeds
+                    resultat = dfs(maze.grid[0][0], maze.grid[9][9])
+                    if resultat:
                             show_text = True
 
-                    if show_text:
-                        # Display the text in the center of the screen
-                        playerTrack()
-                        screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
 
                 elif selected_item == 1:
                     ## BFS
                     maze.setStateZero()
                     mazeSetup()
-                    if not show_text:
-                        # Run the DFS algorithm once and set the show_text flag if it succeeds
-                        resultat = bfs(maze.grid[0][0], maze.grid[9][9])
-                        if resultat:
-                            show_text = True
+                    
+                    # Run the DFS algorithm once and set the show_text flag if it succeeds
+                    resultat = bfs(maze.grid[0][0], maze.grid[9][9])
+                    
 
-                    if show_text:
-                        # Display the text in the center of the screen
-                        playerTrack()
-                        screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
-
-                    # Show options menu
                 elif selected_item == 2:
                     print("Quit")
                     pygame.quit()
                     running = False
         if event.type == pygame.QUIT:
             running = False
-
-    # mazeSetup()
-
-    ## DFS
-    # if not show_text:
-    #     # Run the DFS algorithm once and set the show_text flag if it succeeds
-    #     resultat = dfs(maze.grid[0][0], maze.grid[9][9])
-    #     if resultat:
-    #         show_text = True
-
-    # if show_text:
-    #     # Display the text in the center of the screen
-    #     playerTrack()
-    #     screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
-
-    # mazeSetup()
-
-    # ## BFS
-    # if not show_text:
-    #     # Run the DFS algorithm once and set the show_text flag if it succeeds
-    #     resultat = bfs(maze.grid[0][0], maze.grid[9][9])
-    #     if resultat:
-    #         show_text = True
-
-    # if show_text:
-    #     # Display the text in the center of the screen
-    #     playerTrack()
-    #     screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
 
     display_menu()
 
