@@ -71,6 +71,7 @@ def dfs(startPoint: Cell, endpoint: Cell):
         else:
             for i in maze.getSucessors(curr):
                 mazeSetup()
+                playerTrack()
 
                 print("cell : ", i.i, ", ", i.j)
                 x = START_POINT + (RECT_WIDTH * i.j)
@@ -81,26 +82,6 @@ def dfs(startPoint: Cell, endpoint: Cell):
                 p.empiler(i)
     return False
 
-def bfs(self, x, y):
-        maze.setStateZero()
-        f = filed()
-        print("succ:",self.succ((0,0)))
-        self.A = []
-        self.E=[]
-        self.E.append(x)
-        f.enfiler(x)
-        
-        while not f.file_vide():
-            curr = f.defiler()
-            if curr == y:
-                return True
-            else:
-                for i in self.succ(curr):
-                    f.enfiler(i)  
-                    self.E.append(i)
-            f.affichage()          
-        return False 
-
 
 def mazeSetup():
     screen.fill("purple")
@@ -109,6 +90,14 @@ def mazeSetup():
     pygame.draw.rect(screen, RECT_COLOR, (rect_x+5, rect_y+5, RECT_WIDTH-10, RECT_WIDTH-10))
     # end point
     pygame.draw.rect(screen, END_POINT_COLOR, (END_POINT_COORDENATES+5, END_POINT_COORDENATES+5, RECT_WIDTH-10, RECT_WIDTH-10)) 
+
+def playerTrack():
+    for i in range(maze.width):
+        for j in range(maze.hight):
+            if maze.grid[i][j].state == True:
+                x = START_POINT + (RECT_WIDTH * j)
+                y = START_POINT + (RECT_WIDTH * i)
+                pygame.draw.rect(screen, PLAYER_COLOR, (x+5, y+5, RECT_WIDTH-10, RECT_WIDTH-10))
 
 
 while running:
@@ -127,6 +116,7 @@ while running:
 
     if show_text:
         # Display the text in the center of the screen
+        playerTrack()
         screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
 
 
