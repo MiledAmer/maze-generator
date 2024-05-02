@@ -145,6 +145,8 @@ while running:
     #     playerTrack()
     #     screen.blit(text_surface, (SCREEN_WIDTH / 2 - text_surface.get_width() / 2, SCREEN_HIGHT / 2 - text_surface.get_height() / 2))
 
+    mazeSetup()
+
     ## BFS
     if not show_text:
         # Run the DFS algorithm once and set the show_text flag if it succeeds
